@@ -4,6 +4,7 @@ import { User, Message } from './definitions';
 export async function fetchUsers() {
 	try {
 		const data = await sql<User>`SELECt * FROM user`;
+		console.log("loaded users");
 		return data.rows;
 	} catch (error) {
 		console.error('Database Error:', error);
