@@ -3,9 +3,12 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchUsers } from '@/app/lib/data';
+import {Button} from '@/app/ui/button';
+import Link from 'next/link';
 
 export default async function Users() {
   const users = await fetchUsers();
+  console.log(users);
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
@@ -27,14 +30,17 @@ export default async function Users() {
               >
                 <div className="flex items-center">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold md:text-base">
-                      {user.name}
+                    <p className="truncate text-gray-500 text-sm font-semibold md:text-base">
+                      {user.name} 
                     </p>
                     <p className="hidden text-sm text-gray-500 sm:block">
                       {user.email}
                     </p>
                   </div>
                 </div>
+	      <Link href={{ pathname: 'chat', query:{id: `${user.id}`}}}>
+		<Button>Chat Using This Account</Button>
+		</Link>
               </div>
             );
           })}

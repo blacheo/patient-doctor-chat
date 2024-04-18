@@ -3,8 +3,7 @@ import { User, Message } from './definitions';
 
 export async function fetchUsers() {
 	try {
-		const data = await sql<User>`SELECt * FROM user`;
-		console.log("loaded users");
+		const data = await sql<User>`SELECt * FROM users`;
 		return data.rows;
 	} catch (error) {
 		console.error('Database Error:', error);
@@ -31,5 +30,22 @@ export async function sendMessage(receiverID: string, senderID:string, message:s
 	} catch (error) {
 		console.error('Database Error:', error);
 		throw new Error('Failed to send message.');
+	}
+}
+
+// get users who you have a conversation with
+export async function fetchContacts(id: string) {
+	try {
+		//console.log(id);
+		const users = await sql<User>`
+		SELECT * FROM users,
+		(SELECT receiver_id AS id2 FROM message WHERE sender_id=${id}
+		UNION
+		SELECT sender_id AS id2 FROM message WHERE receiver_id=${id}) WHERE id2 = id;  
+		`
+		return users.rows;
+	} catch (error) {
+		console.error('Database Error:', error);
+		throw new Error('Failed to retrieve aquaintances');
 	}
 }

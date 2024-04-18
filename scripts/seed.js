@@ -22,7 +22,7 @@ async function seedMessages(client) {
       		messages.map(async (message) => {
         	return client.sql`
         	INSERT INTO message (receiver_id, sender_id, message, time_sent)
-        	VALUES (${message.receiver_id}, ${message.sender_id}, ${message.text}, ${message.time_sent});
+        	VALUES (${message.receiver_id}, ${message.sender_id}, ${message.message}, ${message.time_sent});
       `;
       }),
     );
@@ -55,7 +55,6 @@ async function seedUsers(client) {
     `;
 
     console.log(`Created "users" table`);
-    console.log(user_list);
     // Insert data into the "user" table
     const insertedUsers = await Promise.all(
       user_list.map(async (user) => {
