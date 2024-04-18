@@ -8,7 +8,6 @@ import Link from 'next/link';
 
 export default async function Users() {
   const users = await fetchUsers();
-  console.log(users);
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
