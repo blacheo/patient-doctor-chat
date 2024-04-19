@@ -1,19 +1,22 @@
-import { ArrowPathIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
-import Image from 'next/image';
-import { lusitana } from '@/app/ui/fonts';
-import { fetchUsers } from '@/app/lib/data';
-import {Button} from '@/app/ui/button';
-import Link from 'next/link';
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import clsx from "clsx";
+import Image from "next/image";
+import { lusitana } from "@/app/ui/fonts";
+import { fetchUsers } from "@/app/lib/data";
+import { Button } from "@/app/ui/button";
+import Link from "next/link";
+import { User } from "@/app/lib/definitions";
 
-export default async function Users() {
-  const users = await fetchUsers();
+interface UserProps {
+  users: Array<User>;
+  path: string;
+  text: string;
+  other?: string;
+}
 
+export default async function Users({ users, path, text, other }: UserProps) {
   return (
     <div className="flex w-full flex-col md:col-span-4">
-      <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Users
-      </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         <div className="bg-white px-6">
           {users.map((user, i) => {
@@ -21,25 +24,29 @@ export default async function Users() {
               <div
                 key={user.id}
                 className={clsx(
-                  'flex flex-row items-center justify-between py-4',
+                  "flex flex-row items-center justify-between py-4",
                   {
-                    'border-t': i !== 0,
-                  },
+                    "border-t": i !== 0,
+                  }
                 )}
               >
                 <div className="flex items-center">
                   <div className="min-w-0">
                     <p className="truncate text-gray-500 text-sm font-semibold md:text-base">
-                      {user.name} 
+                      {user.name}
                     </p>
                     <p className="hidden text-sm text-gray-500 sm:block">
                       {user.email}
                     </p>
                   </div>
                 </div>
-	      <Link href={{ pathname: 'chat', query:{id: `${user.id}`}}}>
-		<Button>Chat Using This Account</Button>
-		</Link>
+                <Link
+                  href={{
+                    pathname: `${path}/${user.id}/${ other === undefined ? "" : other}`,
+                  }}  
+                >
+                  <Button>{text}</Button>
+                </Link>
               </div>
             );
           })}
