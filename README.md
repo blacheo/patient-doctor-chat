@@ -1,5 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Data Model for the messaging system
+
+Uses a postgresql database to store messages.
+
+Users: Each user in the system has a unique identifier, along with attributes such as username, email,etc.
+
+Messages: Messages contain the text sent between users. It also contains information such as the user_id of the sender and receiver.
+
 ## Getting Started
 
 First, run the development server:
